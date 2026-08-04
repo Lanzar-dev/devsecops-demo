@@ -1,0 +1,18 @@
+# Enforce consistent, Linux-friendly line endings across Windows/WSL.
+* text=auto eol=lf
+
+# Scripts and configs must always be LF (they run in Ubuntu/containers).
+*.sh    text eol=lf
+*.bash  text eol=lf
+Makefile text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+Dockerfile text eol=lf
+
+# Binary files should never be normalized.
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.ico   binary
+*.gz    binary
+*.zip   binary
