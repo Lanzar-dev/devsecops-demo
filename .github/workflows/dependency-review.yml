@@ -1,17 +1,38 @@
-name: Dependency Review
+name: Dependency Review (fallback)
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  dependency-review:
+  npm-audit:
+    name: NPM Audit fallback
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run Dependency Review
-        uses: github/dependency-review-action@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit (fail on HIGH/CRITICAL)
+        run: |
+          set -euo pipefail
+          npm audit --json > audit.json || true
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "jq not found; installing..." && sudo apt-get update && sudo apt-get install -y jq
+          fi
+          HIGH=$(jq -r '.metadata.vulnerabilities.high // 0' audit.json)
+          CRIT=$(jq -r '.metadata.vulnerabilities.critical // 0' audit.json)
+          TOTAL=$((HIGH + CRIT))
+          echo "High: $HIGH, Critical: $CRIT, Total: $TOTAL"
+          if [ "$TOTAL" -gt 0 ]; then
+            echo "Failing CI due to $TOTAL high/critical vulnerabilities (npm audit).";
+            cat audit.json
+            exit 1
+          fi
