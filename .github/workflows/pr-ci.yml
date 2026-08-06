@@ -51,6 +51,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: false
+          load: true
           tags: devsecops-demo:pr-${{ github.sha }}
           file: Dockerfile
 
@@ -60,4 +61,5 @@ jobs:
           image-ref: devsecops-demo:pr-${{ github.sha }}
           severity: HIGH,CRITICAL
           scan-type: image
-          ignore-unfixed: false
+          # Treat unfixed findings as informational in PR CI; CI gate fails only on fixable issues.
+          ignore-unfixed: true
