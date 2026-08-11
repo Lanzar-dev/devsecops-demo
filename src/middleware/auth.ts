@@ -8,7 +8,7 @@ import { verifyAccessToken } from '../lib/token';
  */
 export function requireAuth(req: Request, _res: Response, next: NextFunction): void {
   const header = req.headers.authorization;
-  if (!header || !header.startsWith('Bearer ')) {
+  if (!header?.startsWith('Bearer ')) {
     next(new UnauthorizedError('Missing bearer token'));
     return;
   }

@@ -41,7 +41,7 @@ export class TaskService {
   // as "not found" so we never confirm existence of another user's resource.
   private async requireOwned(ownerId: string, taskId: string): Promise<Task> {
     const task = await this.tasks.findById(taskId);
-    if (!task || task.ownerId !== ownerId) {
+    if (!task?.ownerId || task.ownerId !== ownerId) {
       throw new NotFoundError('Task not found');
     }
     return task;
