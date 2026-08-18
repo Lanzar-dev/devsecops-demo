@@ -67,6 +67,7 @@ jobs:
 
   sonarqube:
     name: SonarCloud / SonarQube analysis
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     needs: build
     steps:
