@@ -84,6 +84,8 @@ jobs:
             -Dsonar.projectKey=lanzar-dev_devsecops-demo
             -Dsonar.projectName=lanzar-dev_devsecops-demo
             -Dsonar.sources=.
+            -Dsonar.sources=.
+            -Dsonar.verbose=true
             -Dsonar.qualitygate.wait=true
             -Dsonar.qualitygate.timeout=300
             -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
