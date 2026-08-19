@@ -24,5 +24,7 @@ jobs:
             -Dsonar.projectKey=lanzar-dev_devsecops-demo
             -Dsonar.projectName=lanzar-dev_devsecops-demo
             -Dsonar.sources=.
+            -Dsonar.verbose=true
+            -Dsonar.log.level=DEBUG
             -Dsonar.qualitygate.wait=true
             -Dsonar.qualitygate.timeout=300
