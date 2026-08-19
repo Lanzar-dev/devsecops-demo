@@ -1,0 +1,28 @@
+name: CI Main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  sonarqube:
+    name: SonarCloud analysis (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run SonarScanner (wait for quality gate)
+        uses: docker://sonarsource/sonar-scanner-cli:latest
+        with:
+          args: >-
+            -Dsonar.host.url=${{ secrets.SONAR_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.organization=${{ secrets.SONAR_ORG }}
+            -Dsonar.projectKey=lanzar-dev_devsecops-demo
+            -Dsonar.projectName=lanzar-dev_devsecops-demo
+            -Dsonar.sources=.
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.timeout=300
