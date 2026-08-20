@@ -14,17 +14,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run SonarScanner (wait for quality gate)
-        uses: docker://sonarsource/sonar-scanner-cli:latest
-        with:
-          args: >-
-            -Dsonar.host.url=${{ secrets.SONAR_URL }}
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-            -Dsonar.organization=${{ secrets.SONAR_ORG }}
-            -Dsonar.projectKey=lanzar-dev_devsecops-demo
-            -Dsonar.projectName=lanzar-dev_devsecops-demo
-            -Dsonar.sources=.
-            -Dsonar.verbose=true
-            -Dsonar.log.level=DEBUG
-            -Dsonar.qualitygate.wait=true
-            -Dsonar.qualitygate.timeout=300
+        - name: SonarCloud Scan
+          uses: SonarSource/sonarqube-scan-action@v8.1.0
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          with:
+            args: >-
+              -Dsonar.host.url=${{ secrets.SONAR_URL }}
+              -Dsonar.organization=${{ secrets.SONAR_ORG }}
+              -Dsonar.projectKey=lanzar-dev_devsecops-demo
+              -Dsonar.projectName=lanzar-dev_devsecops-demo
+              -Dsonar.sources=.
+              -Dsonar.qualitygate.wait=true
+              -Dsonar.qualitygate.timeout=300
