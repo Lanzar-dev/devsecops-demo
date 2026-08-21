@@ -1,8 +1,7 @@
 # DevSecOps Demo — Task Management API
 
 A hands-on, cloud-free DevSecOps learning project. A TypeScript/Node.js REST API is
-carried through a production-style pipeline with security gates, running entirely
-on a local Minikube cluster.
+carried through a production-style pipeline with security gates, running entirely on a local Minikube cluster.
 
 ## Learning objectives
 
