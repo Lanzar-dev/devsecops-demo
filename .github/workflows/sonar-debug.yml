@@ -1,33 +1,33 @@
-name: Sonar Debug
+# name: Sonar Debug
 
-on:
-  workflow_dispatch:
+# on:
+#   workflow_dispatch:
 
-jobs:
-  debug:
-    name: SonarCloud Debug
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+# jobs:
+#   debug:
+#     name: SonarCloud Debug
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Validate secrets present
-        run: |
-          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then echo "SONAR_TOKEN is missing"; else echo "SONAR_TOKEN is set"; fi
-          if [ -z "${{ secrets.SONAR_ORG }}" ]; then echo "SONAR_ORG is missing"; else echo "SONAR_ORG is set"; fi
-          if [ -z "${{ secrets.SONAR_URL }}" ]; then echo "SONAR_URL is missing"; else echo "SONAR_URL is set"; fi
+#       - name: Validate secrets present
+#         run: |
+#           if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then echo "SONAR_TOKEN is missing"; else echo "SONAR_TOKEN is set"; fi
+#           if [ -z "${{ secrets.SONAR_ORG }}" ]; then echo "SONAR_ORG is missing"; else echo "SONAR_ORG is set"; fi
+#           if [ -z "${{ secrets.SONAR_URL }}" ]; then echo "SONAR_URL is missing"; else echo "SONAR_URL is set"; fi
 
-      - name: Validate Sonar token and list projects
-        env:
-          SONAR_URL: ${{ secrets.SONAR_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: ${{ secrets.SONAR_ORG }}
-        run: |
-          echo "Validating token (will not echo token)..."
-          curl -s -u "${SONAR_TOKEN}:" "${SONAR_URL}/api/authentication/validate" || true
-          echo
-          echo "Listing projects in org ${SONAR_ORG}..."
-          curl -s -u "${SONAR_TOKEN}:" "${SONAR_URL}/api/projects/search?organization=${SONAR_ORG}" || true
-          echo
-          echo "Checking ALM binding for project lanzar-dev_devsecops-demo..."
-          curl -s -u "${SONAR_TOKEN}:" "${SONAR_URL}/api/alm_integration/is_project_bound?project=lanzar-dev_devsecops-demo" || true
+#       - name: Validate Sonar token and list projects
+#         env:
+#           SONAR_URL: ${{ secrets.SONAR_URL }}
+#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#           SONAR_ORG: ${{ secrets.SONAR_ORG }}
+#         run: |
+#           echo "Validating token (will not echo token)..."
+#           curl -s -u "${SONAR_TOKEN}:" "${SONAR_URL}/api/authentication/validate" || true
+#           echo
+#           echo "Listing projects in org ${SONAR_ORG}..."
+#           curl -s -u "${SONAR_TOKEN}:" "${SONAR_URL}/api/projects/search?organization=${SONAR_ORG}" || true
+#           echo
+#           echo "Checking ALM binding for project lanzar-dev_devsecops-demo..."
+#           curl -s -u "${SONAR_TOKEN}:" "${SONAR_URL}/api/alm_integration/is_project_bound?project=lanzar-dev_devsecops-demo" || true
