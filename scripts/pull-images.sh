@@ -9,7 +9,7 @@ for img in "${images[@]}"; do
     if docker pull "${img}"; then ok=1; break; fi
     sleep 3
   done
-  if [ "${ok}" -ne 1 ]; then
+  if [[ "${ok}" -ne 1 ]]; then
     echo "FAILED to pull ${img}" >&2
     exit 1
   fi
