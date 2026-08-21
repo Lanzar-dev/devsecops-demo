@@ -37,7 +37,7 @@ fi
 # ----------------------------------------------------------------------------
 log "Installing Node.js ${NODE_MAJOR}.x via nvm (per-user)"
 export NVM_DIR="$HOME/.nvm"
-if [ ! -s "$NVM_DIR/nvm.sh" ]; then
+if [[ ! -s "$NVM_DIR/nvm.sh" ]]; then
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 fi
 # shellcheck disable=SC1091
